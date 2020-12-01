@@ -1,8 +1,8 @@
 class Dom {
   constructor(selector) {
     this.$el = typeof selector === 'string' ?
-            document.querySelector(selector) :
-            selector
+        document.querySelector(selector) :
+        selector
   }
 
   html(html) {
@@ -45,11 +45,13 @@ class Dom {
     if (node instanceof Dom) {
       node = node.$el
     }
+
     if (Element.prototype.append) {
       this.$el.append(node)
     } else {
       this.$el.appendChild(node)
     }
+
     return this
   }
 
@@ -70,9 +72,18 @@ class Dom {
   }
 
   css(styles = {}) {
-    Object.keys(styles).forEach(key => {
-      this.$el.style[key] = styles[key]
-    })
+    Object
+        .keys(styles)
+        .forEach(key => {
+          this.$el.style[key] = styles[key]
+        })
+  }
+
+  getStyles(styles = []) {
+    return styles.reduce((res, s) => {
+      res[s] = this.$el.style[s]
+      return res
+    }, {})
   }
 
   id(parse) {
@@ -102,7 +113,6 @@ class Dom {
   }
 }
 
-// event.target
 export function $(selector) {
   return new Dom(selector)
 }
@@ -114,4 +124,3 @@ $.create = (tagName, classes = '') => {
   }
   return $(el)
 }
-
